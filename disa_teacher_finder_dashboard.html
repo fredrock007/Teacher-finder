@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0d3f7d" />
+  <title>Disa Teacher Finder Dashboard</title>
+  <style>
+    :root {
+      --bg:#082f63; --bg2:#0e4f93; --panel:#123f7a;
+      --line:rgba(120,190,255,.24); --text:#eaf6ff; --muted:#a8c7e8;
+      --cyan:#21b8ff; --mint:#3ee7b4; --yellow:#ffe066; --orange:#ff9466;
+      --red:#ff5c7a; --shadow:0 18px 50px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{height:100%}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:radial-gradient(circle at top left,#1765b8 0,#0d3f7d 32%,#061f45 100%);overflow-x:hidden}
+    button,input,select{font:inherit}
+    button{min-height:50px;border:0;border-radius:15px;padding:12px 15px;font-weight:900;cursor:pointer;color:#062143;background:linear-gradient(135deg,var(--mint),var(--cyan));box-shadow:0 10px 24px rgba(0,0,0,.22);touch-action:manipulation}
+    button:active{transform:scale(.98)}
+    button.secondary{background:#0b2d59;color:var(--text);border:1px solid var(--line);box-shadow:none}
+    button.warn{background:linear-gradient(135deg,var(--yellow),var(--orange));color:#271300}
+    input,select{width:100%;min-height:52px;border:1px solid var(--line);border-radius:15px;background:rgba(5,27,59,.72);color:var(--text);padding:12px 14px;outline:none}
+    input::placeholder{color:#84a9cc} select option{background:#0b2d59;color:white}
+    label{display:block;margin:12px 0 7px;font-size:.86rem;font-weight:800;color:#b8d6f5;letter-spacing:.02em}
+    .app{min-height:100%;padding:16px;max-width:1380px;margin:0 auto}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-bottom:12px}
+    .brand,.clockCard,.panel,.stat{background:rgba(16,64,122,.86);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+    .brand{padding:18px;display:flex;align-items:center;gap:14px;min-height:108px}
+    .logo{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;font-size:1.35rem;font-weight:900;background:conic-gradient(from 210deg,var(--cyan),var(--mint),var(--yellow),var(--cyan));color:#05234b;box-shadow:0 0 30px rgba(33,184,255,.35)}
+    h1{margin:0;font-size:clamp(1.45rem,4vw,2.45rem);letter-spacing:-.05em;line-height:1}
+    .sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+    .clockCard{padding:16px;display:grid;align-content:center;gap:6px;text-align:right}.clock{font-size:clamp(1.8rem,6vw,3.2rem);font-weight:900;letter-spacing:-.06em}.date{color:var(--muted);font-weight:800}
+    .statRow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}.stat{padding:14px}.num{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:900}.cap{color:var(--muted);font-size:.84rem;font-weight:800;margin-top:4px}.chip{display:inline-flex;border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.08);color:#d5efff;font-size:.78rem;font-weight:900;margin-top:8px;border:1px solid var(--line)}
+    .dashboard{display:grid;grid-template-columns:300px 1fr 280px;gap:12px}.stack{display:grid;gap:12px}.panel{padding:15px;min-width:0}.panel h2{font-size:1rem;margin:0 0 12px;color:#d9efff}.panel h3{margin:0 0 8px;font-size:1rem}
+    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tab{background:#0b2d59;color:#bfe4ff;border:1px solid var(--line);box-shadow:none}.tab.active{background:linear-gradient(135deg,#1bb7ff,#45e5b8);color:#05234b}
+    .miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btnGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.btnWide{grid-column:1/-1}.hidden{display:none!important}
+    .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ringCard{background:rgba(5,27,59,.35);border:1px solid var(--line);border-radius:20px;padding:12px;text-align:center}.ring{--p:70;--c:var(--cyan);width:118px;height:118px;border-radius:50%;margin:4px auto 8px;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.09) 0);display:grid;place-items:center;position:relative}.ring:before{content:"";width:76px;height:76px;background:#113d77;border-radius:50%;position:absolute}.ring span{position:relative;font-size:1.55rem;font-weight:900;color:rgba(255,255,255,.94)}
+    .results{display:grid;gap:10px;max-height:44vh;overflow:auto;padding-right:2px}.result{background:rgba(5,27,59,.48);border:1px solid var(--line);border-radius:18px;padding:13px}.resultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.resultTitle{font-size:1.1rem;font-weight:900}.muted{color:var(--muted);line-height:1.45}.pillRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-size:.78rem;font-weight:900}.busy{color:#7bd0ff}.free{color:#fff08a}.good{color:#7dffd5}
+    .barList{display:grid;gap:10px}.barItem{display:grid;grid-template-columns:1fr 42px;gap:10px;align-items:center;color:#cfe8ff;font-size:.86rem}.bar{height:14px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--mint))}
+    .tableWrap{overflow:auto;max-height:34vh;border:1px solid var(--line);border-radius:16px;background:rgba(5,27,59,.35)}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:.86rem}th{position:sticky;top:0;background:#0b2d59;color:#bde5ff;text-transform:uppercase;font-size:.74rem;letter-spacing:.05em}td{color:#eaf6ff}
+    .uploadBox{border:1px dashed rgba(180,220,255,.45);border-radius:18px;padding:12px;background:rgba(5,27,59,.35)}.fileInput{background:rgba(255,255,255,.05);padding:10px}
+    .classic body,.classic .app{background:#f6f7fb;color:#1f2937}.classic .brand,.classic .clockCard,.classic .panel,.classic .stat{background:white;color:#1f2937;border-color:#e5e7eb}.classic .sub,.classic .muted,.classic .cap,.classic label{color:#6b7280}.classic input,.classic select{background:white;color:#1f2937;border-color:#d1d5db}.classic .panel h2,.classic .panel h3{color:#111827}.classic .result,.classic .tableWrap,.classic .ringCard,.classic .uploadBox{background:white;color:#1f2937;border-color:#e5e7eb}.classic td{color:#1f2937}.classic th{background:#f9fafb;color:#4b5563}.classic .pill{color:#374151;background:#f3f4f6}.classic .logo{background:#b11226;color:white}
+    @media(max-width:1100px){.dashboard{grid-template-columns:1fr}.statRow{grid-template-columns:repeat(2,1fr)}.rings{grid-template-columns:1fr 1fr}.results{max-height:none}.tableWrap{max-height:45vh}}
+    @media(max-width:720px){.app{padding:10px}.hero{grid-template-columns:1fr}.clockCard{text-align:left}.statRow,.rings,.miniGrid,.btnGrid{grid-template-columns:1fr}.dashboard{gap:10px}.panel,.brand,.clockCard,.stat{border-radius:17px}.tabs{grid-template-columns:1fr}button{width:100%}.brand{align-items:flex-start}.logo{width:52px;height:52px}.results,.tableWrap{max-height:none}}
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <section class="hero">
+      <div class="brand"><div class="logo">DTF</div><div><h1>Disa Teacher Finder</h1><p class="sub">Touch dashboard for teachers, classes, venues, free periods and timetable uploads.</p></div></div>
+      <div class="clockCard"><div class="clock" id="clock">--:--</div><div class="date" id="dateText">Loading...</div></div>
+    </section>
+
+    <section class="statRow">
+      <div class="stat"><div class="num" id="totalTeachers">0</div><div class="cap">Teachers / resources</div><div class="chip">Catalog Distribution</div></div>
+      <div class="stat"><div class="num" id="loadedLessons">0</div><div class="cap">Lessons loaded</div><div class="chip">Data Exchange</div></div>
+      <div class="stat"><div class="num" id="busyNow">0</div><div class="cap">Busy this period</div><div class="chip">Current Output</div></div>
+      <div class="stat"><div class="num" id="freeNow">0</div><div class="cap">Free this period</div><div class="chip">Availability</div></div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="stack">
+        <div class="panel">
+          <h2>Quick Search</h2>
+          <div class="tabs"><button id="tabTeacher" class="tab active" onclick="setMode('teacher')">Teacher</button><button id="tabClass" class="tab" onclick="setMode('class')">Class</button><button id="tabVenue" class="tab" onclick="setMode('venue')">Venue</button></div>
+          <div class="miniGrid"><div><label>Day</label><select id="day"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div><div><label>Time</label><input id="time" type="time" value="10:30"></div></div>
+          <div id="teacherBox"><label>Teacher</label><input id="teacherInput" list="teachers" placeholder="F Samuels"><datalist id="teachers"></datalist></div>
+          <div id="classBox" class="hidden"><label>Class</label><input id="classInput" list="classes" placeholder="7B"><datalist id="classes"></datalist></div>
+          <div id="venueBox" class="hidden"><label>Venue</label><input id="venueInput" list="venues" placeholder="Innovation Lab"><datalist id="venues"></datalist></div>
+          <div class="btnGrid"><button onclick="searchNow()">Search</button><button class="secondary" onclick="useCurrentPeriod()">Now</button><button class="secondary btnWide" onclick="showFreeTeachers()">Show All Free Teachers</button></div>
+        </div>
+
+        <div class="panel uploadBox">
+          <h2>Upload New Timetable</h2>
+          <p class="muted">Upload a new CSV when the timetable changes. Required headings: Teacher, Day, Period, Start, End, Subject, Class, Venue.</p>
+          <input class="fileInput" type="file" accept=".csv,text/csv" onchange="importCsv(event)">
+          <div class="btnGrid"><button class="secondary" onclick="downloadTemplate()">CSV Template</button><button class="warn" onclick="revertData()">Revert Data</button><button class="secondary btnWide" onclick="toggleClassic()">Classic Safe Mode</button></div>
+        </div>
+      </aside>
+
+      <main class="stack">
+        <div class="panel">
+          <h2 id="periodText">Period check ready.</h2>
+          <div class="rings">
+            <div class="ringCard"><div class="ring" id="ringBusy" style="--p:0;--c:var(--cyan)"><span id="busyPct">0%</span></div><h3>Busy</h3><p class="muted">Teaching now</p></div>
+            <div class="ringCard"><div class="ring" id="ringFree" style="--p:0;--c:var(--mint)"><span id="freePct">0%</span></div><h3>Free</h3><p class="muted">Available now</p></div>
+            <div class="ringCard"><div class="ring" id="ringVenue" style="--p:0;--c:var(--yellow)"><span id="venuePct">0%</span></div><h3>Venue Use</h3><p class="muted">Loaded venues active</p></div>
+          </div>
+        </div>
+
+        <div class="panel"><h2>Results</h2><div id="results" class="results"></div></div>
+        <div class="panel"><h2>Loaded Timetable Data</h2><div class="tableWrap"><table><thead><tr><th>Teacher</th><th>Day</th><th>Period</th><th>Time</th><th>Subject</th><th>Class</th><th>Venue</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
+      </main>
+
+      <aside class="stack">
+        <div class="panel"><h2>Interfaces Rank</h2><div class="barList" id="venueBars"></div></div>
+        <div class="panel"><h2>Teacher Status</h2><div id="teacherStatus" class="barList"></div></div>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    const periods = [
+      {period:1,name:'Period 1',start:'08:00',end:'08:25'},
+      {period:2,name:'Period 2',start:'08:25',end:'08:50'},
+      {period:3,name:'Period 3',start:'08:50',end:'09:15'},
+      {period:4,name:'Period 4',start:'09:15',end:'09:40'},
+      {period:5,name:'Period 5 / Break',start:'09:40',end:'10:05'},
+      {period:6,name:'Period 6',start:'10:30',end:'10:55'},
+      {period:7,name:'Period 7',start:'10:55',end:'11:20'},
+      {period:8,name:'Period 8',start:'11:20',end:'11:45'},
+      {period:9,name:'Period 9',start:'11:45',end:'12:10'},
+      {period:10,name:'Period 10',start:'12:45',end:'13:10'},
+      {period:11,name:'Period 11',start:'13:10',end:'13:35'},
+      {period:12,name:'Period 12',start:'13:35',end:'14:00'},
+      {period:13,name:'Period 13',start:'14:00',end:'14:25'}
+    ];
+
+    const allTeacherNames = ['M Adie','N Mngomeni','N Ntlemeza','S Aupiais','Stephanie Harrison','C Loggenberg','L Marshall','H Moses','J Anderson','N Steunenberg','E Chihwereva','R van Wyk','A Steyn','N Mbacwana','M Peyer','K Sibiya','I Salie','C Gilbert','M Nthite','S Sigcawu','O Gogwana','S Nkomombini','F Samuels','M Wyngaard','G Manuel','K Maribinu','M Ford','T Rosslee','A Roberts','M Swanepoel','Z Dyani','R Fischer','J Masemola','N Ndyalvan','J Roode','Playball','N Maci','Therapy','K van Niekerk','CA Pretorius','G Levendal'];
+
+    const sample = [
+      {teacher:'F Samuels',day:'Monday',period:1,start:'08:00',end:'08:25',subject:'Technology',className:'7A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Monday',period:6,start:'10:30',end:'10:55',subject:'Coding & Robotics',className:'7C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Monday',period:7,start:'10:55',end:'11:20',subject:'Coding & Robotics',className:'6B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Monday',period:8,start:'11:20',end:'11:45',subject:'Coding & Robotics',className:'6C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Tuesday',period:1,start:'08:00',end:'08:25',subject:'Coding & Robotics',className:'7A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Tuesday',period:2,start:'08:25',end:'08:50',subject:'Coding & Robotics',className:'7B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Tuesday',period:6,start:'10:30',end:'10:55',subject:'Technology',className:'7C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Tuesday',period:8,start:'11:20',end:'11:45',subject:'Technology',className:'7B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Tuesday',period:10,start:'12:45',end:'13:10',subject:'Coding & Robotics',className:'5A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Wednesday',period:6,start:'10:30',end:'10:55',subject:'Coding & Robotics',className:'6A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Wednesday',period:7,start:'10:55',end:'11:20',subject:'Coding & Robotics',className:'6B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Wednesday',period:8,start:'11:20',end:'11:45',subject:'Coding & Robotics',className:'5C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Wednesday',period:9,start:'11:45',end:'12:10',subject:'Coding & Robotics',className:'5B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Wednesday',period:10,start:'12:45',end:'13:10',subject:'Coding & Robotics',className:'5A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Thursday',period:1,start:'08:00',end:'08:25',subject:'Technology',className:'7A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Thursday',period:6,start:'10:30',end:'10:55',subject:'Coding & Robotics',className:'6A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Thursday',period:7,start:'10:55',end:'11:20',subject:'Coding & Robotics',className:'7A',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Thursday',period:8,start:'11:20',end:'11:45',subject:'Coding & Robotics',className:'7C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Thursday',period:10,start:'12:45',end:'13:10',subject:'Technology',className:'7C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Friday',period:1,start:'08:00',end:'08:25',subject:'Coding & Robotics',className:'5B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Friday',period:6,start:'10:30',end:'10:55',subject:'Coding & Robotics',className:'6C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Friday',period:7,start:'10:55',end:'11:20',subject:'Coding & Robotics',className:'5C',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Friday',period:8,start:'11:20',end:'11:45',subject:'Coding & Robotics',className:'7B',venue:'Innovation Lab'},
+      {teacher:'F Samuels',day:'Friday',period:10,start:'12:45',end:'13:10',subject:'Technology',className:'7B',venue:'Innovation Lab'},
+      {teacher:'M Peyer',day:'Monday',period:6,start:'10:30',end:'10:55',subject:'English',className:'4C',venue:'4C'},
+      {teacher:'I Salie',day:'Monday',period:6,start:'10:30',end:'10:55',subject:'Maths',className:'4B',venue:'4B'},
+      {teacher:'C Gilbert',day:'Monday',period:6,start:'10:30',end:'10:55',subject:'Maths',className:'4A',venue:'4A'},
+      {teacher:'S Sigcawu',day:'Tuesday',period:10,start:'12:45',end:'13:10',subject:'FAL: isiXhosa',className:'7A/7B',venue:'6A'}
+    ];
+
+    let mode = 'teacher';
+    let data = JSON.parse(localStorage.getItem('disaTeacherFinderData') || 'null') || sample;
+
+    function n(x){return String(x||'').trim().toLowerCase()}
+    function esc(x){return String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
+    function mins(t){const parts=String(t).split(':').map(Number);return parts[0]*60+parts[1]}
+    function activePeriod(){const t=document.getElementById('time').value;const m=mins(t);return periods.find(p=>m>=mins(p.start)&&m<mins(p.end))}
+    function chosenDay(){return document.getElementById('day').value}
+    function rowsForSlot(){const p=activePeriod();if(!p)return[];return data.filter(r=>n(r.day)===n(chosenDay())&&Number(r.period)===Number(p.period))}
+
+    function updateClock(){const now=new Date();document.getElementById('clock').textContent=now.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('dateText').textContent=now.toLocaleDateString('en-ZA',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+
+    function setMode(next){
+      mode=next;
+      document.getElementById('tabTeacher').classList.toggle('active',mode==='teacher');
+      document.getElementById('tabClass').classList.toggle('active',mode==='class');
+      document.getElementById('tabVenue').classList.toggle('active',mode==='venue');
+      document.getElementById('teacherBox').classList.toggle('hidden',mode!=='teacher');
+      document.getElementById('classBox').classList.toggle('hidden',mode!=='class');
+      document.getElementById('venueBox').classList.toggle('hidden',mode!=='venue');
+      clearResults();
+    }
+
+    function updatePeriod(){const p=activePeriod();document.getElementById('periodText').textContent=p?`${chosenDay()} • ${p.name} • ${p.start}–${p.end}`:`${chosenDay()} • No active teaching period`;return p}
+
+    function useCurrentPeriod(){const now=new Date();const day=now.toLocaleDateString('en-ZA',{weekday:'long'});if(['Monday','Tuesday','Wednesday','Thursday','Friday'].includes(day))document.getElementById('day').value=day;document.getElementById('time').value=now.toTimeString().slice(0,5);refresh();searchNow(false)}
+
+    function searchNow(showHelp=true){
+      const out=document.getElementById('results');const p=updatePeriod();out.innerHTML='';
+      if(!p){out.innerHTML=empty('No period found','The selected time is outside stored teaching periods.');return}
+      const rows=rowsForSlot();let matches=[];
+      if(mode==='teacher'){
+        const q=document.getElementById('teacherInput').value;
+        if(!q.trim()){if(showHelp)out.innerHTML=empty('Enter a teacher name','Example: F Samuels');return}
+        matches=rows.filter(r=>n(r.teacher).includes(n(q)));
+        if(!matches.length){const known=allTeacherNames.some(t=>n(t).includes(n(q)))||data.some(r=>n(r.teacher).includes(n(q)));out.innerHTML=known?freeCard(q,p):empty('Teacher not found','This teacher is not in the loaded data. Upload the full CSV.');return}
+      }
+      if(mode==='class'){
+        const q=document.getElementById('classInput').value;
+        if(!q.trim()){if(showHelp)out.innerHTML=empty('Enter a class','Example: 7B');return}
+        matches=rows.filter(r=>n(r.className).includes(n(q)));
+        if(!matches.length){out.innerHTML=empty('No class match',`${q} has no loaded lesson for this period.`);return}
+      }
+      if(mode==='venue'){
+        const q=document.getElementById('venueInput').value;
+        if(!q.trim()){if(showHelp)out.innerHTML=empty('Enter a venue','Example: Innovation Lab');return}
+        matches=rows.filter(r=>n(r.venue).includes(n(q)));
+        if(!matches.length){out.innerHTML=empty('Venue appears free',`${q} has no loaded lesson for this period.`);return}
+      }
+      out.innerHTML=matches.map(card).join('');
+    }
+
+    function card(r){return `<article class="result"><div class="resultTop"><div><div class="resultTitle">${esc(r.teacher)}</div><div class="muted">${esc(r.subject)} • ${esc(r.className)} • ${esc(r.venue)}</div></div><span class="pill busy">Teaching</span></div><div class="pillRow"><span class="pill">${esc(r.day)}</span><span class="pill">Period ${esc(r.period)}</span><span class="pill">${esc(r.start)}–${esc(r.end)}</span></div></article>`}
+    function freeCard(name,p){return `<article class="result"><div class="resultTitle">${esc(name)}</div><div class="pillRow"><span class="pill free">Free period</span><span class="pill">${esc(p.name)}</span><span class="pill">${esc(p.start)}–${esc(p.end)}</span></div><p class="muted">No loaded lesson found for this teacher in the selected period.</p></article>`}
+    function empty(t,m){return `<article class="result"><div class="resultTitle">${esc(t)}</div><p class="muted">${esc(m)}</p></article>`}
+
+    function showFreeTeachers(){const out=document.getElementById('results');const p=updatePeriod();if(!p){out.innerHTML=empty('No period found','The selected time is outside stored teaching periods.');return}const busy=new Set(rowsForSlot().map(r=>r.teacher));const free=allTeacherNames.filter(t=>!busy.has(t)).sort();out.innerHTML=`<article class="result"><div class="resultTitle">Free teachers now</div><p class="muted">${esc(chosenDay())} • ${esc(p.name)} • ${esc(p.start)}–${esc(p.end)}</p><div class="pillRow">${free.map(t=>`<span class="pill free">${esc(t)}</span>`).join('')}</div></article>`}
+    function clearResults(){document.getElementById('results').innerHTML='';updatePeriod()}
+
+    function parseCsv(text){
+      const rows=[];let row=[];let val='';let quoted=false;
+      for(let i=0;i<text.length;i++){
+        const c=text[i];const nx=text[i+1];
+        if(c==='"'&&quoted&&nx==='"'){val+='"';i++}
+        else if(c==='"'){quoted=!quoted}
+        else if(c===','&&!quoted){row.push(val.trim());val=''}
+        else if((c==='\n'||c==='\r')&&!quoted){if(val||row.length){row.push(val.trim());rows.push(row);row=[];val=''}if(c==='\r'&&nx==='\n')i++}
+        else{val+=c}
+      }
+      if(val||row.length){row.push(val.trim());rows.push(row)}
+      return rows.filter(r=>r.some(x=>x));
+    }
+
+    function importCsv(e){
+      const file=e.target.files[0];if(!file)return;
+      const reader=new FileReader();
+      reader.onload=function(){
+        const rows=parseCsv(reader.result);const headers=rows.shift().map(n);const idx=h=>headers.indexOf(h);
+        if(['teacher','day','period','start','end','subject','class','venue'].some(h=>idx(h)<0)){alert('CSV must have: Teacher, Day, Period, Start, End, Subject, Class, Venue');return}
+        localStorage.setItem('disaTeacherFinderBackup',JSON.stringify(data));
+        data=rows.map(r=>({teacher:r[idx('teacher')],day:r[idx('day')],period:Number(r[idx('period')]),start:r[idx('start')],end:r[idx('end')],subject:r[idx('subject')],className:r[idx('class')],venue:r[idx('venue')]})).filter(r=>r.teacher&&r.day&&r.period);
+        localStorage.setItem('disaTeacherFinderData',JSON.stringify(data));
+        refresh();
+        document.getElementById('results').innerHTML=empty('Upload successful',`${data.length} lessons loaded. Previous data saved for revert.`);
+      };
+      reader.readAsText(file);
+    }
+
+    function revertData(){const backup=localStorage.getItem('disaTeacherFinderBackup');if(backup){data=JSON.parse(backup);localStorage.setItem('disaTeacherFinderData',JSON.stringify(data));refresh();document.getElementById('results').innerHTML=empty('Reverted','Previous timetable data has been restored.')}else{data=sample;localStorage.setItem('disaTeacherFinderData',JSON.stringify(data));refresh();document.getElementById('results').innerHTML=empty('Reverted to sample','No backup found, so the sample data was restored.')}}
+
+    function downloadTemplate(){
+      const csv = 'Teacher,Day,Period,Start,End,Subject,Class,Venue\nF Samuels,Monday,1,08:00,08:25,Technology,7A,Innovation Lab\nF Samuels,Monday,6,10:30,10:55,Coding & Robotics,7C,Innovation Lab';
+      const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='disa_teacher_finder_template.csv';a.click();URL.revokeObjectURL(a.href);
+    }
+
+    function toggleClassic(){document.documentElement.classList.toggle('classic')}
+    function fill(id,arr){document.getElementById(id).innerHTML=arr.map(v=>`<option value="${esc(v)}"></option>`).join('')}
+    function bar(label,value,max){const pct=max?Math.round(value/max*100):0;return `<div class="barItem"><div><div>${esc(label)}</div><div class="bar"><span style="width:${pct}%"></span></div></div><b>${value}</b></div>`}
+
+    function refresh(){
+      fill('teachers',allTeacherNames.slice().sort());
+      fill('classes',[...new Set(data.map(r=>r.className))].sort());
+      fill('venues',[...new Set(data.map(r=>r.venue))].sort());
+      const slotRows=rowsForSlot();const busyTeachers=new Set(slotRows.map(r=>r.teacher)).size;const total=allTeacherNames.length;const free=Math.max(total-busyTeachers,0);
+      document.getElementById('totalTeachers').textContent=total;
+      document.getElementById('loadedLessons').textContent=data.length;
+      document.getElementById('busyNow').textContent=busyTeachers;
+      document.getElementById('freeNow').textContent=free;
+      const bp=total?Math.round(busyTeachers/total*100):0;const fp=total?Math.round(free/total*100):0;
+      document.getElementById('busyPct').textContent=bp+'%';document.getElementById('freePct').textContent=fp+'%';
+      document.getElementById('ringBusy').style.setProperty('--p',bp);document.getElementById('ringFree').style.setProperty('--p',fp);
+      const activeVenues=new Set(slotRows.map(r=>r.venue)).size;const allVenues=new Set(data.map(r=>r.venue)).size;const vp=allVenues?Math.round(activeVenues/allVenues*100):0;
+      document.getElementById('venuePct').textContent=vp+'%';document.getElementById('ringVenue').style.setProperty('--p',vp);
+      const venueCounts={};data.forEach(r=>venueCounts[r.venue]=(venueCounts[r.venue]||0)+1);
+      const top=Object.entries(venueCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+      document.getElementById('venueBars').innerHTML=top.map(([k,v])=>bar(k,v,top[0]?.[1]||1)).join('');
+      document.getElementById('teacherStatus').innerHTML=[bar('Loaded teachers',new Set(data.map(r=>r.teacher)).size,total),bar('Busy now',busyTeachers,total),bar('Free now',free,total)].join('');
+      document.getElementById('tableBody').innerHTML=data.map(r=>`<tr><td>${esc(r.teacher)}</td><td>${esc(r.day)}</td><td>${esc(r.period)}</td><td>${esc(r.start)}–${esc(r.end)}</td><td>${esc(r.subject)}</td><td>${esc(r.className)}</td><td>${esc(r.venue)}</td></tr>`).join('');
+      updatePeriod();
+    }
+
+    document.getElementById('day').addEventListener('change',refresh);
+    document.getElementById('time').addEventListener('change',refresh);
+    setInterval(updateClock,1000);
+    updateClock();
+    refresh();
+  </script>
+</body>
+</html>
