@@ -35,7 +35,7 @@
     .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tab{background:#0b2d59;color:#bfe4ff;border:1px solid var(--line);box-shadow:none}.tab.active{background:linear-gradient(135deg,#1bb7ff,#45e5b8);color:#05234b}
     .miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btnGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.btnWide{grid-column:1/-1}.hidden{display:none!important}
     .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ringCard{background:rgba(5,27,59,.35);border:1px solid var(--line);border-radius:20px;padding:12px;text-align:center}.ringButton{width:100%;color:var(--text);box-shadow:none;min-height:auto;display:block}.ringButton:hover{filter:brightness(1.1)}.ring{--p:70;--c:var(--cyan);width:118px;height:118px;border-radius:50%;margin:4px auto 8px;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.09) 0);display:grid;place-items:center;position:relative}.ring:before{content:"";width:76px;height:76px;background:#113d77;border-radius:50%;position:absolute}.ring span{position:relative;font-size:1.55rem;font-weight:900;color:rgba(255,255,255,.94)}
-    .results{display:grid;gap:10px;max-height:44vh;overflow:auto;padding-right:2px}.result{background:rgba(5,27,59,.48);border:1px solid var(--line);border-radius:18px;padding:13px}.resultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.resultTitle{font-size:1.1rem;font-weight:900}.muted{color:var(--muted);line-height:1.45}.pillRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-size:.78rem;font-weight:900}.bubbleGrid{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.busyBubble{border:1px solid rgba(120,190,255,.35);background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),rgba(33,184,255,.18) 35%,rgba(5,27,59,.62));border-radius:999px;padding:10px 12px;color:#eaf6ff;font-weight:900;box-shadow:0 8px 22px rgba(0,0,0,.22);animation:bubblePop .42s cubic-bezier(.2,1.8,.4,1) both;transform-origin:center}.busyBubble small{display:block;color:#b8d6f5;font-weight:700;margin-top:2px;font-size:.72rem}@keyframes bubblePop{0%{opacity:0;transform:scale(.15) translateY(12px)}65%{opacity:1;transform:scale(1.12) translateY(-2px)}100%{opacity:1;transform:scale(1) translateY(0)}}.busy{color:#7bd0ff}.free{color:#fff08a}.good{color:#7dffd5}
+    .results{display:grid;gap:10px;max-height:44vh;overflow:auto;padding-right:2px}.result{background:rgba(5,27,59,.48);border:1px solid var(--line);border-radius:18px;padding:13px}.resultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.resultTitle{font-size:1.1rem;font-weight:900}.muted{color:var(--muted);line-height:1.45}.pillRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-size:.78rem;font-weight:900}.bubbleGrid{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.busyBubble{border:1px solid rgba(120,190,255,.35);background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),rgba(33,184,255,.18) 35%,rgba(5,27,59,.62));border-radius:999px;padding:10px 12px;color:#eaf6ff;font-weight:900;box-shadow:0 8px 22px rgba(0,0,0,.22);animation:bubblePop .42s cubic-bezier(.2,1.8,.4,1) both;transform-origin:center}.busyBubble small{display:block;color:#b8d6f5;font-weight:700;margin-top:2px;font-size:.72rem}.freeBubble{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),rgba(62,231,180,.22) 35%,rgba(5,27,59,.62));border-color:rgba(62,231,180,.45)}@keyframes bubblePop{0%{opacity:0;transform:scale(.15) translateY(12px)}65%{opacity:1;transform:scale(1.12) translateY(-2px)}100%{opacity:1;transform:scale(1) translateY(0)}}.busy{color:#7bd0ff}.free{color:#fff08a}.good{color:#7dffd5}
     .barList{display:grid;gap:10px}.quickActions{display:grid;gap:9px}.quickActions button{width:100%}.barItem{display:grid;grid-template-columns:1fr 42px;gap:10px;align-items:center;color:#cfe8ff;font-size:.86rem}.bar{height:14px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--mint))}
     .tableWrap{overflow:auto;max-height:34vh;border:1px solid var(--line);border-radius:16px;background:rgba(5,27,59,.35)}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:.86rem}th{position:sticky;top:0;background:#0b2d59;color:#bde5ff;text-transform:uppercase;font-size:.74rem;letter-spacing:.05em}td{color:#eaf6ff}
     .uploadBox{border:1px dashed rgba(180,220,255,.45);border-radius:18px;padding:12px;background:rgba(5,27,59,.35)}.fileInput{background:rgba(255,255,255,.05);padding:10px}
@@ -60,11 +60,14 @@
   <aside class="stack">
     <div class="panel">
       <h2>Quick Search</h2>
-      <div class="tabs"><button id="tabTeacher" class="tab active" onclick="setMode('teacher')">Teacher</button><button id="tabClass" class="tab" onclick="setMode('class')">Class</button><button id="tabVenue" class="tab" onclick="setMode('venue')">Venue</button></div>
+      <label>Natural Search</label>
+      <input id="naturalInput" placeholder="Example: Where is 7B now? / Is F Samuels free?" onkeydown="if(event.key==='Enter') naturalSearch()">
+      <div class="btnGrid"><button class="btnWide" onclick="naturalSearch()">Ask Timetable</button></div>
+      <div class="tabs"><button id="tabTeacher" class="tab active" onclick="setMode('teacher')">Teacher</button><button id="tabClass" class="tab" onclick="setMode('class')">Class</button></div>
       <div class="miniGrid"><div><label>Day</label><select id="day"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option></select></div><div><label>Time</label><input id="time" type="time" value="10:30"></div></div>
       <div id="teacherBox"><label>Teacher</label><input id="teacherInput" list="teachers" placeholder="F Samuels"><datalist id="teachers"></datalist></div>
       <div id="classBox" class="hidden"><label>Class</label><input id="classInput" list="classes" placeholder="7B"><datalist id="classes"></datalist></div>
-      <div id="venueBox" class="hidden"><label>Venue</label><input id="venueInput" list="venues" placeholder="Innovation Lab"><datalist id="venues"></datalist></div>
+      
       <div class="btnGrid"><button onclick="searchNow()">Search</button><button class="secondary" onclick="useCurrentPeriod()">Now</button><button class="secondary btnWide" onclick="showFreeTeachers()">Show All Free Teachers</button></div>
     </div>
 
@@ -83,14 +86,14 @@
       <div class="rings">
         <button class="ringCard ringButton" onclick="showBusyTeachers()" type="button"><div class="ring" id="ringBusy" style="--p:0;--c:var(--cyan)"><span id="busyPct">0%</span></div><h3>Busy</h3><p class="muted">Touch to see who is teaching now</p></button>
         <button class="ringCard ringButton" onclick="showFreeTeachers()" type="button"><div class="ring" id="ringFree" style="--p:0;--c:var(--mint)"><span id="freePct">0%</span></div><h3>Free</h3><p class="muted">Touch to see available teachers</p></button>
-        <div class="ringCard"><div class="ring" id="ringVenue" style="--p:0;--c:var(--yellow)"><span id="venuePct">0%</span></div><h3>Venue Use</h3><p class="muted">Loaded venues active</p></div>
+        <h3>Venue Use</h3><p class="muted">Loaded venues active</p></div>
       </div>
     </div>
     <div class="panel"><h2>Results</h2><div id="results" class="results"></div></div>
   </main>
 
   <aside class="stack">
-    <div class="panel"><h2>Quick Actions</h2><div class="quickActions"><button class="secondary" onclick="showBusyTeachers()">Who is teaching now?</button><button class="secondary" onclick="showFreeTeachers()">Who is free now?</button><button class="secondary" onclick="showInnovationLab()">Who is in Innovation Lab?</button><button class="secondary" onclick="showGrade7Now()">Where are Grade 7s?</button><button class="secondary" onclick="showCurrentVenues()">Venues in use now</button></div></div>
+    <div class="panel"><h2>Quick Actions</h2><div class="quickActions"><button class="secondary" onclick="showBusyTeachers()">Who is teaching now?</button><button class="secondary" onclick="showFreeTeachers()">Who is free now?</button><button class="secondary" onclick="showGrade7Now()">Where are Grade 7s?</button></div></div>
     <div class="panel"><h2>Teacher Status</h2><div id="teacherStatus" class="barList"></div></div>
   </aside>
 </section>
@@ -170,6 +173,41 @@
       document.getElementById('dateText').textContent=now.toLocaleDateString('en-ZA',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
     }
 
+    function naturalSearch(){
+      const raw=document.getElementById('naturalInput').value.trim();
+      const q=n(raw);
+      if(!q){document.getElementById('results').innerHTML=empty('Type a question','Example: Where is 7B now?');return;}
+
+      if(q.includes('who is teaching') || q.includes('busy') || q.includes('teaching now')){
+        showBusyTeachers();
+        return;
+      }
+
+      if(q.includes('who is free') || q.includes('free teacher') || q.includes('available')){
+        showFreeTeachers();
+        return;
+      }
+
+      const classMatch=raw.match(/([1-7][A-D]|R[1-3])/i);
+      if(classMatch){
+        setMode('class');
+        document.getElementById('classInput').value=classMatch[1].toUpperCase();
+        searchNow();
+        return;
+      }
+
+      const cleaned=q.replace(/where is|where's|is|free|now|teaching|teacher|mr|mrs|ms|miss|sir|madam|at|the/g,'').trim();
+      const teacherMatch=allTeacherNames.find(function(name){return q.includes(n(name)) || n(name).includes(cleaned);});
+      if(teacherMatch){
+        setMode('teacher');
+        document.getElementById('teacherInput').value=teacherMatch;
+        searchNow();
+        return;
+      }
+
+      document.getElementById('results').innerHTML=empty('Could not understand search','Try: Where is 7B now? / Is F Samuels free? / Who is teaching now?');
+    }
+
     function setMode(next){
       mode=next;
       document.getElementById('tabTeacher').classList.toggle('active',mode==='teacher');
@@ -219,9 +257,7 @@
         matches=rows.filter(r=>n(r.className).includes(n(q)));
         if(!matches.length){out.innerHTML=empty('No class match',`${q} has no loaded lesson for this period.`);return;}
       }
-      if(mode==='venue'){
-        const q=document.getElementById('venueInput').value;
-        if(!q.trim()){if(showHelp)out.innerHTML=empty('Enter a venue','Example: Innovation Lab');return;}
+      
         matches=rows.filter(r=>n(r.venue).includes(n(q)));
         if(!matches.length){out.innerHTML=empty('Venue appears free',`${q} has no loaded lesson for this period.`);return;}
       }
@@ -238,7 +274,8 @@
       if(!p){out.innerHTML=empty('No period found','The selected time is outside stored teaching periods.');return;}
       const busy=new Set(rowsForSlot().map(r=>r.teacher));
       const free=allTeacherNames.filter(t=>!busy.has(t)).sort();
-      out.innerHTML=`<article class="result"><div class="resultTitle">Free teachers now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)} - ${esc(p.start)} to ${esc(p.end)}</p><div class="pillRow">${free.map(t=>`<span class="pill free">${esc(t)}</span>`).join('')}</div></article>`;
+      out.innerHTML=`<article class="result"><div class="resultTitle">Free teachers now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)} - ${esc(p.start)} to ${esc(p.end)}</p><div class="bubbleGrid">${free.map((t,i)=>`<div class="busyBubble freeBubble" style="animation-delay:${i*55}ms">${esc(t)}<small>Available / Free period</small></div>`).join('')}</div></article>`;
+      playLaserPops(free.length);
     }
 
     function showBusyTeachers(){
@@ -277,10 +314,34 @@
       }catch(err){console.warn('Pop sound blocked or unavailable',err);}
     }
 
-    function showInnovationLab(){
-      setMode('venue');
-      document.getElementById('venueInput').value='Innovation Lab';
-      searchNow();
+    function playLaserPops(count){
+      try{
+        const AudioContext=window.AudioContext || window.webkitAudioContext;
+        if(!AudioContext)return;
+        const ctx=new AudioContext();
+        const max=Math.min(count,18);
+        for(let i=0;i<max;i++){
+          setTimeout(function(){
+            const osc=ctx.createOscillator();
+            const gain=ctx.createGain();
+            const filter=ctx.createBiquadFilter();
+            osc.type='sawtooth';
+            filter.type='lowpass';
+            filter.frequency.setValueAtTime(1800,ctx.currentTime);
+            osc.frequency.setValueAtTime(980+(i*18),ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(220+(i*8),ctx.currentTime+0.12);
+            gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.11,ctx.currentTime+0.012);
+            gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.14);
+            osc.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime+0.15);
+          },i*55);
+        }
+        setTimeout(function(){ctx.close && ctx.close();},max*70+500);
+      }catch(err){console.warn('Laser sound blocked or unavailable',err);}
     }
 
     function showGrade7Now(){
@@ -290,16 +351,6 @@
       const rows=rowsForSlot().filter(r=>String(r.className).includes('7'));
       if(!rows.length){out.innerHTML=empty('No Grade 7 match','No Grade 7 class is loaded for this period. Upload the full CSV for complete results.');return;}
       out.innerHTML=`<article class="result"><div class="resultTitle">Grade 7 classes now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)} - ${esc(p.start)} to ${esc(p.end)}</p></article>` + rows.map(card).join('');
-    }
-
-    function showCurrentVenues(){
-      const out=document.getElementById('results');
-      const p=updatePeriod();
-      if(!p){out.innerHTML=empty('No period found','The selected time is outside stored teaching periods.');return;}
-      const rows=rowsForSlot();
-      if(!rows.length){out.innerHTML=empty('No venues in use','No loaded venues are active in this period.');return;}
-      const venueHtml=rows.slice().sort((a,b)=>a.venue.localeCompare(b.venue)).map(r=>`<article class="result"><div class="resultTitle">${esc(r.venue)}</div><p class="muted">${esc(r.teacher)} - ${esc(r.subject)} - ${esc(r.className)}</p><div class="pillRow"><span class="pill">Period ${esc(r.period)}</span><span class="pill">${esc(r.start)} to ${esc(r.end)}</span></div></article>`).join('');
-      out.innerHTML=`<article class="result"><div class="resultTitle">Venues in use now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)}</p></article>` + venueHtml;
     }
 
     function clearResults(){document.getElementById('results').innerHTML='';updatePeriod();}
@@ -514,7 +565,7 @@
     function refresh(){
       fill('teachers',allTeacherNames.slice().sort());
       fill('classes',[...new Set(data.map(r=>r.className))].sort());
-      fill('venues',[...new Set(data.map(r=>r.venue))].sort());
+      
       const slotRows=rowsForSlot();
       const busyTeachers=new Set(slotRows.map(r=>r.teacher)).size;
       const total=allTeacherNames.length;
@@ -532,8 +583,8 @@
       const activeVenues=new Set(slotRows.map(r=>r.venue)).size;
       const allVenues=new Set(data.map(r=>r.venue)).size;
       const vp=allVenues?Math.round(activeVenues/allVenues*100):0;
-      document.getElementById('venuePct').textContent=vp+'%';
-      document.getElementById('ringVenue').style.setProperty('--p',vp);
+      document.getElementById('').textContent=vp+'%';
+      document.getElementById('').style.setProperty('--p',vp);
       document.getElementById('teacherStatus').innerHTML=[bar('Loaded teachers',new Set(data.map(r=>r.teacher)).size,total),bar('Busy now',busyTeachers,total),bar('Free now',free,total)].join('');
       updatePeriod();
     }
