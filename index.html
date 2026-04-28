@@ -35,7 +35,7 @@
     .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.tab{background:#0b2d59;color:#bfe4ff;border:1px solid var(--line);box-shadow:none}.tab.active{background:linear-gradient(135deg,#1bb7ff,#45e5b8);color:#05234b}
     .miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btnGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.btnWide{grid-column:1/-1}.hidden{display:none!important}
     .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.ringCard{background:rgba(5,27,59,.35);border:1px solid var(--line);border-radius:20px;padding:12px;text-align:center}.ringButton{width:100%;color:var(--text);box-shadow:none;min-height:auto;display:block}.ringButton:hover{filter:brightness(1.1)}.ring{--p:70;--c:var(--cyan);width:118px;height:118px;border-radius:50%;margin:4px auto 8px;background:conic-gradient(var(--c) calc(var(--p)*1%),rgba(255,255,255,.09) 0);display:grid;place-items:center;position:relative}.ring:before{content:"";width:76px;height:76px;background:#113d77;border-radius:50%;position:absolute}.ring span{position:relative;font-size:1.55rem;font-weight:900;color:rgba(255,255,255,.94)}
-    .results{display:grid;gap:10px;max-height:44vh;overflow:auto;padding-right:2px}.result{background:rgba(5,27,59,.48);border:1px solid var(--line);border-radius:18px;padding:13px}.resultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.resultTitle{font-size:1.1rem;font-weight:900}.muted{color:var(--muted);line-height:1.45}.pillRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-size:.78rem;font-weight:900}.busy{color:#7bd0ff}.free{color:#fff08a}.good{color:#7dffd5}
+    .results{display:grid;gap:10px;max-height:44vh;overflow:auto;padding-right:2px}.result{background:rgba(5,27,59,.48);border:1px solid var(--line);border-radius:18px;padding:13px}.resultTop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.resultTitle{font-size:1.1rem;font-weight:900}.muted{color:var(--muted);line-height:1.45}.pillRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.pill{border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.09);border:1px solid var(--line);font-size:.78rem;font-weight:900}.bubbleGrid{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.busyBubble{border:1px solid rgba(120,190,255,.35);background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),rgba(33,184,255,.18) 35%,rgba(5,27,59,.62));border-radius:999px;padding:10px 12px;color:#eaf6ff;font-weight:900;box-shadow:0 8px 22px rgba(0,0,0,.22);animation:bubblePop .42s cubic-bezier(.2,1.8,.4,1) both;transform-origin:center}.busyBubble small{display:block;color:#b8d6f5;font-weight:700;margin-top:2px;font-size:.72rem}@keyframes bubblePop{0%{opacity:0;transform:scale(.15) translateY(12px)}65%{opacity:1;transform:scale(1.12) translateY(-2px)}100%{opacity:1;transform:scale(1) translateY(0)}}.busy{color:#7bd0ff}.free{color:#fff08a}.good{color:#7dffd5}
     .barList{display:grid;gap:10px}.quickActions{display:grid;gap:9px}.quickActions button{width:100%}.barItem{display:grid;grid-template-columns:1fr 42px;gap:10px;align-items:center;color:#cfe8ff;font-size:.86rem}.bar{height:14px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--mint))}
     .tableWrap{overflow:auto;max-height:34vh;border:1px solid var(--line);border-radius:16px;background:rgba(5,27,59,.35)}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:.86rem}th{position:sticky;top:0;background:#0b2d59;color:#bde5ff;text-transform:uppercase;font-size:.74rem;letter-spacing:.05em}td{color:#eaf6ff}
     .uploadBox{border:1px dashed rgba(180,220,255,.45);border-radius:18px;padding:12px;background:rgba(5,27,59,.35)}.fileInput{background:rgba(255,255,255,.05);padding:10px}
@@ -247,7 +247,34 @@
       if(!p){out.innerHTML=empty('No period found','The selected time is outside stored teaching periods.');return;}
       const busyRows=rowsForSlot().slice().sort((a,b)=>a.teacher.localeCompare(b.teacher));
       if(!busyRows.length){out.innerHTML=empty('No busy teachers','No loaded teachers are teaching in this period. Upload the full timetable CSV for complete results.');return;}
-      out.innerHTML=`<article class="result"><div class="resultTitle">Busy teachers now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)} - ${esc(p.start)} to ${esc(p.end)}</p></article>` + busyRows.map(card).join('');
+      out.innerHTML=`<article class="result"><div class="resultTitle">Busy teachers now</div><p class="muted">${esc(chosenDay())} - ${esc(p.name)} - ${esc(p.start)} to ${esc(p.end)}</p><div class="bubbleGrid">${busyRows.map((r,i)=>`<div class="busyBubble" style="animation-delay:${i*90}ms">${esc(r.teacher)}<small>${esc(r.subject)} - ${esc(r.className)} - ${esc(r.venue)}</small></div>`).join('')}</div></article>`;
+      playBubblePops(busyRows.length);
+    }
+
+    function playBubblePops(count){
+      try{
+        const AudioContext=window.AudioContext || window.webkitAudioContext;
+        if(!AudioContext)return;
+        const ctx=new AudioContext();
+        const max=Math.min(count,12);
+        for(let i=0;i<max;i++){
+          setTimeout(function(){
+            const osc=ctx.createOscillator();
+            const gain=ctx.createGain();
+            osc.type='sine';
+            osc.frequency.setValueAtTime(520+(i*26),ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(900+(i*26),ctx.currentTime+0.035);
+            gain.gain.setValueAtTime(0.0001,ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.16,ctx.currentTime+0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.08);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime+0.09);
+          },i*90);
+        }
+        setTimeout(function(){ctx.close && ctx.close();},max*100+400);
+      }catch(err){console.warn('Pop sound blocked or unavailable',err);}
     }
 
     function showInnovationLab(){
